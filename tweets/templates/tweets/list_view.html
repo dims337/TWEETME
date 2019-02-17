@@ -1,0 +1,7 @@
+{% for obj in object_list%}
+<p>{{obj.content}}<br/>
+{{obj.user}} 
+{{obj.timestamp|timesince}} ago</p><br/><br/>
+
+
+{%endfor%}
