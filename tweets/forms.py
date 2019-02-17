@@ -6,8 +6,7 @@ class TweetModelForm(forms.ModelForm):
     class Meta:
         model = Tweet
         fields = [
-            "user",
-
+            #"user",
             "content"
         ]
      #personalizing validation of our content

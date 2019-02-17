@@ -1,24 +1,11 @@
+from django import forms
+from django.forms.utils import ErrorList
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, CreateView
 
 from .models import Tweet
 from .forms import TweetModelForm
-
-# Create your views here.
-# def tweet_detail_view(request, id=1):
-#     obj = Tweet.objects.get(id=id)
-#     context = {
-#         'object': obj,
-#     }
-#     return render (request, 'tweets/detail_view.html', context)
-
-
-#  def tweet_list_view(request):
-#     queryset = Tweet.objects.all()
-#     context = {
-#         "object_list": queryset,
-#     }
-#     return render (request, 'tweets/list_view.html', context) 
+from .mixins import FormUserNeededMixin
 
 
 class TweetDetailView(DetailView):
@@ -37,14 +24,12 @@ class TweetListView(ListView):
 
 
 
-class TweetCreateView(CreateView):
+class TweetCreateView(FormUserNeededMixin,CreateView):
     #queryset = Tweet.objects.all()
     form_class = TweetModelForm
     template_name = "tweets/create_view.html"
     success_url="/tweet/create/"
+    login_url = "/admin/" #redirect to login page when user not authenticated
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(TweetCreateView, self).form_valid(form)
 
 
