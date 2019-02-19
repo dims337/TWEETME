@@ -25,15 +25,15 @@ class TweetListView(ListView):
         query = self.request.GET.get("q", None)
         if query is not None:
             qs = qs.filter(
-                Q(content__icontains=query)) |
-                Q(user__username__icontains=query)
+                Q(content__icontains=query) |
+                Q(user__username__icontains=query))
         return qs
 
 
     def get_context_data(self, *args, **kwargs):
         context = super(TweetListView, self).get_context_data(*args, **kwargs)
         return context
-    template_name = 'tweets/list_view.html'    
+    template_name = 'tweets/tweet_list.html'    
 
 
 
@@ -58,5 +58,5 @@ class TweetUpdateView(LoginRequiredMixin, UserOwnerMixin, UpdateView):
 class TweetDeleteView(LoginRequiredMixin, DeleteView):
     model = Tweet
     template_name = 'tweets/delete_confirm.html'
-    success_url = reverse('tweet:list')
+    success_url = reverse_lazy('tweet:list')
 
