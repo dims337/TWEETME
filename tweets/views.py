@@ -13,7 +13,7 @@ from .mixins import FormUserNeededMixin, UserOwnerMixin
 
 class TweetDetailView(DetailView):
     queryset = Tweet.objects.all()
-    template_name = "tweets/detail_view.html"
+    template_name = "tweets/tweet_detail.html"
 
 
 
@@ -32,6 +32,8 @@ class TweetListView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(TweetListView, self).get_context_data(*args, **kwargs)
+        context['create_form'] = TweetModelForm()
+        context['create_url'] = reverse_lazy("tweet:create")
         return context
     template_name = 'tweets/tweet_list.html'    
 
