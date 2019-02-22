@@ -1,20 +1,69 @@
 {% extends "base.html" %}
 
+{% block script %}
+<script>
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+$(document).ready(function({
+
+    var query = getParameterByName('q')
+
+    $.ajax({
+        url:"api/tweet"/?q=search,
+        method:"GET",
+        sucess: function(data){
+            $.each(data, function(key, value){
+                var TweetKey = key;
+                var TweetContent = value.content;
+                var Tweetuser = value.user;
+                $("#tweet-container").append(
+                    "<div class=\"media\" ><div class =\"media-body\">" + TweetContent + "<br/>" + Tweetuser.username + " | " + "<a href='#'>View</a>" + "</div></div><hr/>"
+                )
+            })
+        },
+
+        error: function(data){
+            console.log("error")
+        }
+        
+    })
+
+
+
+</script>
+
+
+{% endblock script%}
+
 {% block content %}
    
     <div class="row">
-        <div class="col-sm-3 col-xs-12" style="background-color:red;">
+        <div class="col-sm-3 col-xs-12" style="background-color:yellowgreen;">
         <h1>{{ request.user }}</h1>
     </div>
 </div>
     <div class="col-sm-9">
                 {% if not request.GET.q %}
                 <div class="">
-                {% include "tweets/form.html" with form=form action_url=create_url btn_title="tweet" %}
+                {% include "tweets/form.html" with form=create_form action_url=create_url btn_title="tweet" %}
 
                 </div>
                 <hr/>
             {% endif %}
+
+            <div id= "tweet-container" >
+                
+                
+                </div>
 
     
                 {% for object in object_list %}
