@@ -63,10 +63,10 @@ $(document).ready(function({
 {% block content %}
    
     <div class="row">
-        <div class="col-sm-3 col-xs-12" style="background-color:yellowgreen;">
+        <div class="col-sm-3 col-xs-12" style="background-color:rgb(242, 244, 221);">
         <h1>{{ request.user }}</h1>
+        <hr/>
     </div>
-</div>
     <div class="col-sm-9">
                 {% if not request.GET.q %}
                 <div class="">
@@ -80,11 +80,13 @@ $(document).ready(function({
                 
                 
                 </div>
+                <a href="#" id="loadmore">Load more tweets </a>
 
+ 
     
                 {% for object in object_list %}
             <div class="media">
-                <div class="meida-left">
+                <div class="media-left">
                     <a href="#">
                         {% if object.image %}
                             <img class="media-object" src="..." alt="...">

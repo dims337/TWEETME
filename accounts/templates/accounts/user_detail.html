@@ -4,16 +4,19 @@
 
 <div class="row">
     <div class="col-xs-3 col-xs-12" style="background-color:rgb(242, 242, 216);">
-        <h1> {{ object.user}} </h1>
+        <h1> {{ object.username}} </h1>
     </div>
     <div class="col-sm-9 col-xs-12">
-            {{ object.content}}<br/>
-            {{ object.timestamp | timesince}}
+           <h1>Tweets</h1>
+            {% for tweet in object.tweet_set.all %}
 
+            {{ tweet }}<br/>
+
+            {% endfor %}
     </div>
         
       
-    </div>
+
 </div>
 
 
