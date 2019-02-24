@@ -21,7 +21,7 @@ class TweetListView(ListView):
     #queryset = Tweet.objects.all()
 
     def get_queryset(self, *args, **kwargs):
-        qs = Tweet.objects.all()
+        qs = Tweet.objects.all().order_by("-timestamp")
         query = self.request.GET.get("q", None)
         if query is not None:
             qs = qs.filter(
