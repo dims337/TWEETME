@@ -6,8 +6,9 @@ from django.views.generic import DetailView
 User = get_user_model()
 
 class UserDetailView(DetailView):
-    queryset = User.objects.all()
+    
     template_name="accounts/user_detail.html"
+    queryset = User.objects.all()
     #lookup_field = 'username'
 
     def get_object(self):

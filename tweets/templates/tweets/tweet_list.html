@@ -16,26 +16,81 @@ function getParameterByName(name, url) {
 $(document).ready(function({
 
     var query = getParameterByName('q')
+    var tweetList = [];
+    var nextTweetUrl ;
 
-    $.ajax({
-        url:"api/tweet"/?q=search,
-        method:"GET",
-        sucess: function(data){
-            $.each(data, function(key, value){
-                var TweetKey = key;
-                var TweetContent = value.content;
-                var Tweetuser = value.user;
-                $("#tweet-container").append(
-                    "<div class=\"media\" ><div class =\"media-body\">" + TweetContent + "<br/>" + Tweetuser.username + " | " + "<a href='#'>View</a>" + "</div></div><hr/>"
-                )
+    function attachTweet(tweetvalue, prepend){
+        var dateDisplay = tweetValue.date_display;
+        var TweetContent = tweetValue.content;
+        var TweetUser = tweetValue.user;
+        var tweetFormattedHtml =  "<div class=\"media\" ><div class =\"media-body\">" + TweetContent + "<br/> <a href='" + TweetUser.url + "'>" + Tweetuser.username + "</a> | " + "<a href='#'>View</a>" + "</div></div><hr/>"
+
+        if (prepend == True){
+            ($"tweet-container").prepend(tweetFormattedHtml)
+
+        }else{
+            ($"tweet-container").append(tweetFormattedHtml)
+        }
+    }
+
+    function parseTweets(){
+        if (tweetList == 0 ){
+            ($"tweet-container").text("No tweets currently found!")
+        }else{
+            //tweets exist parse and display them
+            $.each(tweetList, function (key, value){
+                var tweetKey = key;
+                attachTweet(value)
             })
-        },
+        }
+    }
+
+    function fetchTweets(url){
+        console.log("fetching.....")
+        var fetchUrl;
+        if (!url){
+            fetchUrl = "/api/tweet/"
+        }else{
+            fetchUrl = url
+        }
+        $.ajax({
+            url : fetchUrl,
+            data:{
+                "q": query
+            },
+            method: "GET"
+            success: function(data){
+                tweetList = data.results
+                if (data.next){
+                    nextTweetUrl = data.next
+                }else{
+                    $("#loadmore").css("display", "none")
+                }
+                parseTweets()
+            }
+        })
+    }
+
+    // $.ajax({
+    //     url:"api/tweet"/?q=search,
+    //     method:"GET",
+    //     sucess: function(data){
+    //         $.each(data, function(key, value){
+    //             var TweetKey = key;
+    //             var TweetContent = value.content;
+    //             var Tweetuser = value.user;
+    //             $("#tweet-container").append(
+    //                 "<div class=\"media\" ><div class =\"media-body\">" + TweetContent + "<br/> <a href='" + tweetUser.url + "'>" + Tweetuser.username + "</a> | " + "<a href='#'>View</a>" + "</div></div><hr/>"
+    //             )
+    //         })
+    //     },
 
         error: function(data){
             console.log("error")
         }
         
     })
+
     fetchTweets()
 
 
