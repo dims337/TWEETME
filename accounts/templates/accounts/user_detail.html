@@ -3,8 +3,11 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-xs-3 col-xs-12" style="background-color:rgb(242, 242, 216);">
+    <div class="col-xs-3 col-xs-12">
         <h1> {{ object.username}} </h1>
+        <p>followers:{{ object.followed_by.all.count}}</p>
+       <p><a href="btn btn-link href='{% url "profiles:follow" username=object.username %}'>Follow</a></p>"
+        <hr/>
     </div>
     <div class="col-sm-9 col-xs-12">
            <h1>Tweets</h1>
@@ -13,11 +16,10 @@
             {{ tweet }}<br/>
 
             {% endfor %}
+            <hr/>
 
-
-
-            <h1>Following</h1>
-            {% for user in object.profile.following.all %}
+            <h1>Following:<small>{{ object.profile.get_following.count }}</small></h1>
+            {% for user in object.profile.get_following %}
 
             <a href='/{{ user.username }}'>{{user.username}}</a><br/>
             { % empty % }
@@ -25,9 +27,10 @@
 
             {% endfor %}<br/><br/>
 
+            <hr/>
 
-            <h1>Followed by</h1>
-            {% for user in object.profile.followed_by.all %}
+            <h1>Followed by:<small> {{ object.followed_by.count }}</small></h1>
+            {% for profile in object.followed_by.all %}
 
             <a href="/{{ profile.user.username }}">{{profile.user.username}}</a><br/>
             { % empty % }

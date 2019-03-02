@@ -1,6 +1,6 @@
 
-    <form id='navbar-search-form' class="navbar-form navbar-left" method="GET" action= '{% url "tweet:list" %}' >
-        <div class="form-group">
+    <form style="display: flex" id='navbar-search-form' class="navbar-form navbar-left" method="GET" action= '{% url "tweet:list" %}' >
+        <div style="margin: 0" class="form-group">
         
                 <input class="form-control" type="text" name="q" placeholder="Search" value="{{ request.GET.q }}"/>
             </div>

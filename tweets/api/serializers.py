@@ -22,4 +22,4 @@ class TweetModelSerializer(serializers.ModelSerializer):
         return obj.timestamp.strftime("%b %d %I %M %p")
 
     def get_timesince(self, obj):
-        return timesince(obj.timestamp )  + "" + " ago "   
+        return timesince(obj.timestamp )  + " " + " ago "   
